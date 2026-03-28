@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistemi Smart - Xhamia e Ratkocit</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Amiri:ital@1&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --emerald-dark: #062c24;
+            --gold: #c5a059;
+            --gold-light: #f3e5ab;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at center, #0a3d31 0%, #051f1a 100%);
+            color: white;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        .gold-text { color: var(--gold); }
+        .gold-border { border-color: var(--gold); }
+        .serif-arabic { font-family: 'Amiri', serif; }
+        
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
+            70% { box-shadow: 0 0 0 20px rgba(197, 160, 89, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); }
+        }
+        .active-prayer {
+            border: 2px solid var(--gold);
+            animation: pulse-gold 2s infinite;
+            background: rgba(197, 160, 89, 0.1);
+        }
+        .fade-transition { transition: all 1s ease-in-out; }
+        .hidden-mode { opacity: 0; pointer-events: none; transform: scale(0.95); position: absolute; }
+        .visible-mode { opacity: 1; pointer-events: auto; transform: scale(1); position: relative; }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-between p-8">
+
+    <div id="adhan-mode" class="fixed inset-0 z-50 bg-[#051f1a] flex flex-col items-center justify-center hidden-mode fade-transition">
+        <div class="text-center space-y-8">
+            <h2 class="text-6xl gold-text font-extrabold tracking-widest uppercase animate-bounce">Koha e Ezanit</h2>
+            <h1 id="adhan-prayer-name" class="text-9xl font-black uppercase tracking-tighter">--</h1>
+            <div class="h-1 w-64 bg-zinc-800 mx-auto rounded-full overflow-hidden">
+                <div class="h-full bg-[#c5a059] animate-[progress_10s_linear_infinite]"></div>
+            </div>
+            <p class="text-3xl italic opacity-70">Lutja pas ezanit: "All-llahumme Rabbe hadhihid-da’vetit-tammeh..."</p>
+        </div>
+    </div>
+
+    <div id="prayer-mode" class="fixed inset-0 z-[60] bg-black flex flex-col items-center justify-center hidden-mode fade-transition">
+        <div class="text-center space-y-12">
+            <div class="opacity-20">
+                <svg width="200" height="200" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M50 5L63 35H37 L50 5Z" fill="#c5a059"/>
+                    <path d="M50 95L37 65H63 L50 95Z" fill="#c5a059"/>
+                </svg>
+            </div>
+            <h1 class="text-5xl font-light tracking-[0.5em] uppercase text-zinc-400">Namazi po falet</h1>
+            <p class="text-2xl text-zinc-600 tracking-widest italic font-light">Lutemi të fikni telefonat dhe të ruani qetësinë</p>
+        </div>
+    </div>
+
+   <header id="main-header" class="w-full flex justify-between items-start fade-transition">
+    <div class="glass p-8 rounded-[32px] flex items-center gap-8 border-l-4 border-l-[#c5a059]">
+        <div class="w-16 h-16 flex items-center justify-center">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full">
+                <path d="M12 3L4 10V21H20V10L12 3Z" stroke="#c5a059" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M12 3V21" stroke="#c5a059" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M8 21V12H16V21" stroke="#c5a059" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M12 7L15 10M12 7L9 10" stroke="#c5a059" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+        </div>
+        <div>
+            <h1 class="serif-arabic text-4xl font-black tracking-tight uppercase leading-none">Xhamia e Ratkocit</h1>
+            <p class="text-xs gold-text font-bold tracking-[0.4em] mt-3 uppercase opacity-70">Imam i Xhamies SAMIR MULLAFETAHU</p>
+        </div>
+    </div>
+
+    <div class="text-right">
+        <div id="digital-clock" class="text-[10rem] font-black tracking-tighter leading-none tabular-nums">00:00</div>
+        <div class="flex justify-end gap-6 mt-4 items-center">
+            <p id="date-gregorian" class="text-xl font-light opacity-50 uppercase tracking-[0.2em]">-- -- ----</p>
+            <div class="w-2 h-2 rounded-full bg-[#c5a059]"></div>
+            <p id="date-hijri" class="text-xl gold-text font-bold uppercase tracking-[0.2em]">-- -- ----</p>
+        </div>
+    </div>
+</header>
+
+    <main id="prayer-container" class="grid grid-cols-5 gap-6 w-full px-4 fade-transition">
+        <div id="card-Fajr" class="glass p-10 rounded-[40px] text-center space-y-4 transition-all duration-500">
+            <p class="uppercase tracking-[0.3em] font-bold opacity-40 text-sm">Sabahu</p>
+            <h2 id="time-Fajr" class="text-6xl font-black tracking-tighter">--:--</h2>
+            <div class="status-indicator h-1 w-12 mx-auto bg-transparent rounded-full"></div>
+        </div>
+        <div id="card-Dhuhr" class="glass p-10 rounded-[40px] text-center space-y-4 transition-all duration-500">
+            <p class="uppercase tracking-[0.3em] font-bold opacity-40 text-sm">Dreka</p>
+            <h2 id="time-Dhuhr" class="text-6xl font-black tracking-tighter">--:--</h2>
+            <div class="status-indicator h-1 w-12 mx-auto bg-transparent rounded-full"></div>
+        </div>
+        <div id="card-Asr" class="glass p-10 rounded-[40px] text-center space-y-4 transition-all duration-500">
+            <p class="uppercase tracking-[0.3em] font-bold opacity-40 text-sm">Ikindia</p>
+            <h2 id="time-Asr" class="text-6xl font-black tracking-tighter">--:--</h2>
+            <div class="status-indicator h-1 w-12 mx-auto bg-transparent rounded-full"></div>
+        </div>
+        <div id="card-Maghrib" class="glass p-10 rounded-[40px] text-center space-y-4 transition-all duration-500">
+            <p class="uppercase tracking-[0.3em] font-bold opacity-40 text-sm">Akshami</p>
+            <h2 id="time-Maghrib" class="text-6xl font-black tracking-tighter">--:--</h2>
+            <div class="status-indicator h-1 w-12 mx-auto bg-transparent rounded-full"></div>
+        </div>
+        <div id="card-Isha" class="glass p-10 rounded-[40px] text-center space-y-4 transition-all duration-500">
+            <p class="uppercase tracking-[0.3em] font-bold opacity-40 text-sm">Jacia</p>
+            <h2 id="time-Isha" class="text-6xl font-black tracking-tighter">--:--</h2>
+            <div class="status-indicator h-1 w-12 mx-auto bg-transparent rounded-full"></div>
+        </div>
+    </main>
+
+    <footer id="main-footer" class="w-full grid grid-cols-3 gap-8 items-center fade-transition">
+        <div class="glass p-8 rounded-[35px] flex items-center gap-8">
+            <div class="text-center">
+                <p class="text-xs uppercase tracking-widest opacity-50 mb-1">Vakti i ardhshëm</p>
+                <h3 id="next-prayer-name" class="text-3xl font-extrabold gold-text uppercase tracking-widest">--</h3>
+            </div>
+            <div class="h-12 w-[1px] bg-white/10"></div>
+            <div id="countdown-timer" class="text-5xl font-black tracking-tighter tabular-nums text-white">00:00:00</div>
+        </div>
+
+        <div class="col-span-2 glass p-8 rounded-[35px] relative overflow-hidden h-32 flex items-center justify-center text-center">
+            <div id="content-rotator" class="fade-transition">
+                <p id="rotator-text" class="text-2xl font-medium italic opacity-90 tracking-wide">Duke u ngarkuar...</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /**
+         * CONFIGURATION & STATE
+         */
+        const CONFIG = {
+            city: 'Rahovec',
+            country: 'Kosovo',
+            method: 3, // Muslim World League
+            adhanDuration: 10, // Minutes
+            prayerDuration: 20, // Minutes
+            contentInterval: 25000 // Content rotation speed
+        };
+
+        let state = {
+            prayerTimes: {},
+            nextPrayer: null,
+            currentMode: 'NORMAL', // NORMAL, ADHAN, PRAYER
+            hadiths: [
+                "Namazi është shtylla e fesë.",
+                "Më i miri prej jush është ai që sillet më mirë me familjen e tij.",
+                "Allahu i do ata që pendohen shumë.",
+                "Kush ndërton një xhami, Allahu do t'i ndërtojë atij një shtëpi në Xhenet.",
+                "Pastërtia është gjysma e besimit."
+            ]
+        };
+
+        /**
+         * API SERVICE
+         */
+        async function fetchPrayerTimes() {
+            try {
+                const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${CONFIG.city}&country=${CONFIG.country}&method=${CONFIG.method}`);
+                const data = await response.json();
+                
+                if(data.code === 200) {
+                    const timings = data.data.timings;
+                    state.prayerTimes = {
+                        Fajr: timings.Fajr,
+                        Dhuhr: timings.Dhuhr,
+                        Asr: timings.Asr,
+                        Maghrib: timings.Maghrib,
+                        Isha: timings.Isha
+                    };
+                    localStorage.setItem('cachedPrayerTimes', JSON.stringify(state.prayerTimes));
+                    updateUI(data.data);
+                }
+            } catch (error) {
+                console.error("API Error, using fallback", error);
+                const cached = localStorage.getItem('cachedPrayerTimes');
+                if(cached) state.prayerTimes = JSON.parse(cached);
+            }
+        }
+
+        /**
+         * CORE LOGIC
+         */
+        function updateUI(data) {
+            // Update Times
+            for (const [prayer, time] of Object.entries(state.prayerTimes)) {
+                document.getElementById(`time-${prayer}`).innerText = time;
+            }
+
+            // Update Dates
+            const gregDate = new Date();
+            document.getElementById('date-gregorian').innerText = gregDate.toLocaleDateString('sq-AL', { day:'numeric', month:'long', year:'numeric'});
+            
+            if(data) {
+                const hijri = data.date.hijri;
+                document.getElementById('date-hijri').innerText = `${hijri.day} ${hijri.month.en} ${hijri.year}`;
+            }
+        }
+
+        function clockAndLogic() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('sq-AL', { hour: '2-digit', minute: '2-digit', hour12: false });
+            document.getElementById('digital-clock').innerText = timeStr;
+
+            checkModeSwitch(now);
+            calculateCountdown(now);
+        }
+
+        function checkModeSwitch(now) {
+            let activePrayerFound = false;
+            let newMode = 'NORMAL';
+            let activePrayerName = "";
+
+            for (const [prayer, time] of Object.entries(state.prayerTimes)) {
+                const [pHT, pMT] = time.split(':').map(Number);
+                const prayerDate = new Date();
+                prayerDate.setHours(pHT, pMT, 0);
+
+                const diffMinutes = (now - prayerDate) / (1000 * 60);
+
+                // ADHAN MODE (First 10 mins)
+                if (diffMinutes >= 0 && diffMinutes < CONFIG.adhanDuration) {
+                    newMode = 'ADHAN';
+                    activePrayerName = prayer;
+                    activePrayerFound = true;
+                } 
+                // PRAYER MODE (10 to 30 mins after adhan)
+                else if (diffMinutes >= CONFIG.adhanDuration && diffMinutes < (CONFIG.adhanDuration + CONFIG.prayerDuration)) {
+                    newMode = 'PRAYER';
+                    activePrayerFound = true;
+                }
+
+                // UI Highlight
+                const card = document.getElementById(`card-${prayer}`);
+                if (diffMinutes >= 0 && diffMinutes < 60) card.classList.add('active-prayer');
+                else card.classList.remove('active-prayer');
+            }
+
+            updateModeUI(newMode, activePrayerName);
+        }
+
+        function updateModeUI(mode, prayerName) {
+            if (state.currentMode === mode) return;
+            state.currentMode = mode;
+
+            const adhanEl = document.getElementById('adhan-mode');
+            const prayerEl = document.getElementById('prayer-mode');
+            const mainHeader = document.getElementById('main-header');
+            const mainContainer = document.getElementById('prayer-container');
+            const mainFooter = document.getElementById('main-footer');
+
+            // Reset
+            [adhanEl, prayerEl].forEach(el => {
+                el.classList.remove('visible-mode');
+                el.classList.add('hidden-mode');
+            });
+
+            if (mode === 'NORMAL') {
+                [mainHeader, mainContainer, mainFooter].forEach(el => el.style.opacity = "1");
+            } else if (mode === 'ADHAN') {
+                adhanEl.classList.add('visible-mode');
+                document.getElementById('adhan-prayer-name').innerText = prayerName;
+                [mainHeader, mainContainer, mainFooter].forEach(el => el.style.opacity = "0");
+            } else if (mode === 'PRAYER') {
+                prayerEl.classList.add('visible-mode');
+                [mainHeader, mainContainer, mainFooter].forEach(el => el.style.opacity = "0");
+            }
+        }
+
+        function calculateCountdown(now) {
+            let next = null;
+            let minDiff = Infinity;
+            let nextName = "";
+
+            for (const [prayer, time] of Object.entries(state.prayerTimes)) {
+                const [pHT, pMT] = time.split(':').map(Number);
+                const prayerDate = new Date();
+                prayerDate.setHours(pHT, pMT, 0);
+
+                let diff = prayerDate - now;
+                if (diff < 0) {
+                    prayerDate.setDate(prayerDate.getDate() + 1);
+                    diff = prayerDate - now;
+                }
+
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    next = prayerDate;
+                    nextName = prayer;
+                }
+            }
+
+            // Albanian Translation Map
+            const trans = { Fajr: 'Sabahu', Dhuhr: 'Dreka', Asr: 'Ikindia', Maghrib: 'Akshami', Isha: 'Jacia' };
+            document.getElementById('next-prayer-name').innerText = trans[nextName];
+
+            // Format Countdown
+            const h = Math.floor(minDiff / 3600000);
+            const m = Math.floor((minDiff % 3600000) / 60000);
+            const s = Math.floor((minDiff % 60000) / 1000);
+            document.getElementById('countdown-timer').innerText = 
+                `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+        }
+
+        function rotateContent() {
+            const rotatorText = document.getElementById('rotator-text');
+            const rotatorContainer = document.getElementById('content-rotator');
+            let index = 0;
+
+            setInterval(() => {
+                rotatorContainer.style.opacity = "0";
+                setTimeout(() => {
+                    index = (index + 1) % state.hadiths.length;
+                    rotatorText.innerText = state.hadiths[index];
+                    rotatorContainer.style.opacity = "1";
+                }, 1000);
+            }, CONFIG.contentInterval);
+        }
+
+        /**
+         * INITIALIZATION
+         */
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchPrayerTimes();
+            setInterval(clockAndLogic, 1000);
+            setInterval(fetchPrayerTimes, 60000 * 60); // Refresh API every hour
+            rotateContent();
+            
+            // Fullscreen trigger (shumë TV kërkojnë interaksion të parë)
+            window.onclick = () => document.documentElement.requestFullscreen();
+        });
+
+    </script>
+</body>
+</html>

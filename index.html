@@ -1,12 +1,75 @@
 <!DOCTYPE html>
 <html lang="sq">
 <head>
+
+
+
+
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#c5a059">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ratkoci">
+
+<link rel="apple-touch-icon" href="icon-192.png">
+
+
+
+
+
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistemi i Xhamisë Ratkoc - Inteligjent</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
+
+
+
+
+
+
+        @media (max-width: 768px) {
+    body {
+        overflow-y: auto; /* Lejo scroll në telefon */
+        height: auto;
+        cursor: default; /* Kthe mausin në telefon */
+        padding: 1rem;
+    }
+    
+    header {
+        flex-direction: column;
+        gap: 2rem;
+        text-align: center;
+    }
+
+    main {
+        grid-template-cols: 1fr 1fr !important; /* Vaktet 2 e nga 2 në telefon */
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    footer {
+        grid-template-columns: 1fr !important;
+        height: auto;
+        margin-top: 2rem;
+    }
+
+    .col-span-4, .col-span-8 {
+        grid-column: span 12 / span 12;
+    }
+
+    #digital-clock {
+        font-size: 5rem;
+    }
+}
+
+
+
+
+
+        
         :root {
             --emerald-dark: #051f1a;
             --emerald-light: #0a3d31;

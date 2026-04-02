@@ -457,6 +457,53 @@
             startHadithRotator();
             window.onclick = () => document.documentElement.requestFullscreen();
         });
+
+
+
+
+
+
+
+
+
+
+
+        let deferredPrompt;
+
+// 1. Regjistrimi i Service Worker
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js')
+        .then(() => console.log("Service Worker u regjistrua me sukses!"));
+}
+
+// 2. Kapja e ngjarjes "beforeinstallprompt"
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault(); // Ndalo shfaqjen automatike të browser-it
+    deferredPrompt = e;
+    
+    // Shfaq butonin tonë të personalizuar
+    const installBanner = document.getElementById('install-banner');
+    if (installBanner) installBanner.classList.remove('hidden');
+});
+
+// 3. Logjika kur klikohet butoni "Instalo"
+document.getElementById('install-button')?.addEventListener('click', async () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt(); // Shfaq dritaren e instalimit
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') {
+            console.log('Përdoruesi pranoi instalimin');
+        }
+        deferredPrompt = null;
+        document.getElementById('install-banner').classList.add('hidden');
+    }
+});
+
+// 4. Fshi butonin nëse aplikacioni është instaluar tashmë
+window.addEventListener('appinstalled', () => {
+    document.getElementById('install-banner').classList.add('hidden');
+    console.log('Aplikacioni u instalua!');
+});
     </script>
 </body>
 </html>

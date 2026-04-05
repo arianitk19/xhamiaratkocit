@@ -289,57 +289,42 @@
 
     <!-- MAIN PRAYER GRID -->
 
-    <main class="grid grid-cols-7 gap-6 w-full">
+  <!-- Zëvendëso seksionin MAIN me këtë strukturë të re -->
+<main class="grid grid-cols-3 gap-8 w-full flex-grow my-8">
+    
+    <!-- Sabahu (Më e madhe se të tjerat) -->
+    <div id="card-Fajr" class="glass p-10 rounded-[50px] flex flex-col justify-center items-center border-b-8 border-b-gold">
+        <p class="uppercase tracking-[0.4em] font-bold opacity-60 text-xl mb-4 text-gold">SABAHU</p>
+        <h2 id="time-Fajr" class="text-9xl font-black tracking-tighter tabular-nums">--:--</h2>
+    </div>
 
-        <div id="card-Imsak" class="glass p-8 rounded-[40px] text-center transition-all">
+    <div id="card-Dhuhr" class="glass p-10 rounded-[50px] flex flex-col justify-center items-center">
+        <p class="uppercase tracking-[0.4em] font-bold opacity-60 text-xl mb-4">DREKA</p>
+        <h2 id="time-Dhuhr" class="text-8xl font-black tracking-tighter tabular-nums">--:--</h2>
+    </div>
 
-            <p class="uppercase tracking-widest font-bold opacity-40 text-xs mb-4">Imsaku</p>
+    <div id="card-Asr" class="glass p-10 rounded-[50px] flex flex-col justify-center items-center">
+        <p class="uppercase tracking-[0.4em] font-bold opacity-60 text-xl mb-4">IKINDIA</p>
+        <h2 id="time-Asr" class="text-8xl font-black tracking-tighter tabular-nums">--:--</h2>
+    </div>
 
-            <h2 id="time-Imsak" class="text-5xl font-black tracking-tighter">--:--</h2>
+    <!-- Rreshti i dytë -->
+    <div id="card-Maghrib" class="glass p-10 rounded-[50px] flex flex-col justify-center items-center border-b-8 border-b-gold">
+        <p class="uppercase tracking-[0.4em] font-bold opacity-60 text-xl mb-4 text-gold">AKSHAMI</p>
+        <h2 id="time-Maghrib" class="text-8xl font-black tracking-tighter tabular-nums">--:--</h2>
+    </div>
 
-        </div>
+    <div id="card-Isha" class="glass p-10 rounded-[50px] flex flex-col justify-center items-center">
+        <p class="uppercase tracking-[0.4em] font-bold opacity-60 text-xl mb-4">JACIA</p>
+        <h2 id="time-Isha" class="text-8xl font-black tracking-tighter tabular-nums">--:--</h2>
+    </div>
 
-        <div id="card-Fajr" class="glass p-8 rounded-[40px] text-center transition-all">
-
-            <p class="uppercase tracking-widest font-bold opacity-40 text-xs mb-4">Sabahu</p>
-
-            <h2 id="time-Fajr" class="text-5xl font-black tracking-tighter">--:--</h2>
-
-        </div>
-
-        <div id="card-Dhuhr" class="glass p-8 rounded-[40px] text-center transition-all">
-
-            <p id="label-Dhuhr" class="uppercase tracking-widest font-bold opacity-40 text-xs mb-4">Dreka</p>
-
-            <h2 id="time-Dhuhr" class="text-5xl font-black tracking-tighter">--:--</h2>
-
-        </div>
-
-        <div id="card-Asr" class="glass p-8 rounded-[40px] text-center transition-all">
-
-            <p class="uppercase tracking-widest font-bold opacity-40 text-xs mb-4">Ikindia</p>
-
-            <h2 id="time-Asr" class="text-5xl font-black tracking-tighter">--:--</h2>
-
-        </div>
-
-        <div id="card-Maghrib" class="glass p-8 rounded-[40px] text-center transition-all">
-
-            <p class="uppercase tracking-widest font-bold opacity-40 text-xs mb-4">Akshami</p>
-
-            <h2 id="time-Maghrib" class="text-5xl font-black tracking-tighter">--:--</h2>
-
-        </div>
-
-        <div id="card-Isha" class="glass p-8 rounded-[40px] text-center transition-all">
-
-            <p class="uppercase tracking-widest font-bold opacity-40 text-xs mb-4">Jacia</p>
-
-            <h2 id="time-Isha" class="text-5xl font-black tracking-tighter">--:--</h2>
-
-        </div>
-
-    </main>
+    <!-- Imsaku (E vendosur në fund si info shtesë) -->
+    <div id="card-Imsak" class="glass p-10 rounded-[50px] flex flex-col justify-center items-center opacity-80 border-dashed border-2 border-white/10">
+        <p class="uppercase tracking-[0.4em] font-bold opacity-60 text-xl mb-4">IMSAKU</p>
+        <h2 id="time-Imsak" class="text-7xl font-light tracking-tighter tabular-nums text-zinc-400">--:--</h2>
+    </div>
+</main>
 
 
 

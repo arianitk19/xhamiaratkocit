@@ -16,40 +16,24 @@
 
     <style>
 
-
-
-
-
         :root {
 
             --emerald-dark: #051f1a;
-
             --emerald-light: #0a3d31;
-
             --gold: #c5a059;
-
             --gold-glow: rgba(197, 160, 89, 0.4);
 
         }
 
 
-
         body {
-
             font-family: 'Plus Jakarta Sans', sans-serif;
-
             background: radial-gradient(circle at center, var(--emerald-light) 0%, var(--emerald-dark) 100%);
-
             color: white;
-
             overflow: hidden;
-
             height: 100vh;
-
             width: 100vw;
-
             cursor: none;
-
         }
 
 
@@ -57,11 +41,8 @@
         .glass {
 
             background: rgba(255, 255, 255, 0.03);
-
             backdrop-filter: blur(20px);
-
             border: 1px solid rgba(255, 255, 255, 0.08);
-
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
 
         }
@@ -71,9 +52,7 @@
         .gold-gradient-text {
 
             background: linear-gradient(to bottom, #f3e5ab, #c5a059);
-
             -webkit-background-clip: text;
-
             -webkit-text-fill-color: transparent;
 
         }
@@ -81,15 +60,10 @@
 
 
         .active-prayer {
-
             border: 2px solid var(--gold);
-
             background: rgba(197, 160, 89, 0.15) !important;
-
             transform: scale(1.05);
-
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-
             box-shadow: 0 0 30px var(--gold-glow);
 
         }
@@ -101,11 +75,8 @@
 
 
         @keyframes subtle-zoom {
-
             0% { transform: scale(1); }
-
             50% { transform: scale(1.02); }
-
             100% { transform: scale(1); }
 
         }
@@ -119,19 +90,12 @@
         .mode-overlay {
 
             position: fixed;
-
             inset: 0;
-
             z-index: 100;
-
             display: none;
-
             flex-direction: column;
-
             align-items: center;
-
             justify-content: center;
-
             transition: all 1s ease-in-out;
 
         }
@@ -147,11 +111,8 @@
         #adhan-mode {
 
             background: linear-gradient(rgba(5, 31, 26, 0.7), rgba(5, 31, 26, 0.7)), 
-
                         url('FOTO_E_XHAMIS_KETU.jpg'); /* Zëvendësoje me linkun e fotos */
-
             background-size: cover;
-
             background-position: center;
 
         }
